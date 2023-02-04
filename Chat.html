@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ChatApp.com</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<style> 
+.up{ 
+    display: none;
+}
+
+</style>
+<body class="bg-success">
+
+    <div class="col3 shadow bg-light w-50 p-5"> 
+        <div class="col4 "> 
+            <h1>A chat Box</h1>
+            <div id="TextArea" class="col5 mt-5"> </div>
+            <div class="tryThis"></div>
+             <b> Username: <span id="td"></span> </b> <br>
+             <b>Time message was sent: <span id="timeStamp"></span> </b>
+             <span id="transform"></span>
+             <span id="Stamp"></span>
+
+        </div>
+        <input type="text" id="textSelf" class="form-control w-50 mt-4" placeholder="Enter Text here">
+        <button onclick="sendText()" class="btn btn-info mt-4">Send Text</button> 
+
+        <div class="col2 up">
+                <input id="emailUp" type="email" class="form-control w-25 mt-4" placeholder=" email address ">
+                <input id="passwordUp"  type="password" class="form-control w-25 mt-4" placeholder=" Password ">
+                <input id="usernameUp"  type="text" class="form-control w-25 mt-4" placeholder=" Input your username here ">
+                <button onclick="buttonUp()" class="btn btn-warning mt-4">Sign Up here</button>
+
+        </div>
+
+       
+
+    </div>
+
+            <script>
+            
+           
+
+            const sendText  = () =>{ 
+            let emailResult = emailUp.value;
+            let passwordResult = passwordUp.value;
+            let username = usernameUp.value;
+            let time = new Date();
+            let msgContent = textSelf.value;
+                        
+            emailUp.value = "";
+            passwordUp.value = "";
+            usernameUp.value = "";
+            textSelf.value = "";
+
+        
+
+            let emptyArray = [];
+            let allValues = {emailResult:emailResult,passwordResult:passwordResult,username:username,date:time.toUTCString(),msgContent:msgContent};
+            let getDetails = JSON.parse(localStorage.getItem("details"));
+            emptyArray = getDetails;
+
+            emptyArray.push(allValues);
+            localStorage.setItem("details", JSON.stringify(emptyArray));
+            
+
+
+                let final = localStorage.getItem("emailcred");
+                if(final){ 
+                    let myDetails = JSON.parse(localStorage.getItem("details"));
+                    let check = myDetails.findIndex(u => u.emailResult == final) ;
+                    document.getElementById("td").innerHTML = myDetails[check].username;
+                    document.getElementById("timeStamp").innerHTML = myDetails[check].date;
+                    document.getElementById("transform").innerHTML = myDetails[check].passwordResult;
+                    document.getElementById("Stamp").innerHTML = myDetails[check].emailResult;
+
+                    let content = "";
+                    for(let i = 0; i < emptyArray.lenght; i++){
+                        content += `<div class = "Shadow bg-light p-5"> 
+                            <b> ${emptyArray[i].msgContent} </b>
+                            <b> ${emptyArray[i].emailResult} </b>
+                            <strong> ${emptyArray[i].passwordResult} </strong>
+                           
+                        
+                        </div>`
+                         
+                    
+                        
+
+                    }
+                    document.getElementById("tryThis").innerHTML = content;
+                    console.log(emptyArray)
+                    
+                        // localStorage.removeItem("textValue");
+                        
+                        
+
+                }
+            }
+
+
+
+
+            
+            
+            </script>
+    
+</body>
+</html>
